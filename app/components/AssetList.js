@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Image} from 'react-native';
 
-import AssetListItem from './AssetListItem'
+import { deleteAsset } from '../api';
 
 export default class AssetList extends Component {
   render() {
@@ -10,7 +10,14 @@ export default class AssetList extends Component {
       <View style={styles.container}>
         {
           assets && assets.map(asset => (
-            <AssetListItem key={asset.id} asset={asset} editMode={editMode}/>
+            <View key={asset.id}>
+              <Text>Asset ID: {asset.id}</Text>
+              <Image
+                style={{ width: 100, height: 100 }}
+                source={{ uri: `https://inventure-api-staging.herokuapp.com${asset.url}`}}
+              />
+              {editMode && <Text onPress={() => deleteAsset(asset.id)}>Delete</Text>}
+            </View>
           ))
         }
       </View>

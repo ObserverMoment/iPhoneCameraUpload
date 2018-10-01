@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, CameraRoll } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 import { saveAssetsTodb } from '../api';
@@ -10,22 +10,26 @@ export default class UploadAssets extends Component {
     this.state = {
       photos: [],
       videos: [], // TODO.
-      message: ''
+      message: null
     }
   }
 
   // TODO: Once back end is updated these need to be saved onto an innovation, not a concept.
   // NOTE: Set up for testing only. Please use Innovation: 'Where Can We Go' and concept 'Test Uploading Mobile App = ID 149' (hard coded below)
-  saveAssetsTodb = async (conceptId) => {
+  saveToDb = async (conceptId) => {
     const newPhotos = [ ...this.state.photos ];
     const newVideos = [ ...this.state.videos ];
-    const onSuccess = this.setState({ photos: [], videos: [] })
-    saveAssetsTodb(149, newPhotos, newVideos, onSuccess, onFail);
+    saveAssetsTodb(149, newPhotos, newVideos, this.confirmUpload, this.alertFailedUpload);
   }
 
   confirmUpload = () => {
     this.setState({ photos: [], videos: [], message: 'Assets saved' });
-    setTimeout(() => this.setState({ message: ''}), 4000);
+    setTimeout(() => this.setState({ message: null}), 4000);
+  }
+
+  alertFailedUpload = () => {
+    this.setState({ message: 'Upload Failed' });
+    setTimeout(() => this.setState({ message: 'null'}), 4000);
   }
 
   removeNewPhoto = (index) => {
@@ -41,11 +45,18 @@ export default class UploadAssets extends Component {
   }
 
   handleCancel = () => {
+    const { partnerId, innovationId, name } = this.props.navigation.state.params;
     this.setState({ photos: [], videos: [] });
-    this.props.navigation.navigate('Innovation Assets');
+    this.props.navigation.navigate(
+      'InnovationAssets',
+      { partnerId, innovationId, name }
+    );
   }
 
   render() {
+    CameraRoll.getPhotos().then(photos => {
+      console.log(photos);
+    });
     return (
       <View style={styles.container}>
         <View style={styles.imagePreviews}>
@@ -58,7 +69,7 @@ export default class UploadAssets extends Component {
         </View>
         <View style={{flex: 0.7}}>
           {
-            this.state.message && <Text style={{color: 'white'}}>{this.state.message}</Text>
+            <Text style={{color: 'black'}}>{this.state.message}</Text>
           }
           <RNCamera
               ref={ref => {
@@ -81,19 +92,25 @@ export default class UploadAssets extends Component {
               style = {styles.capture}
           >
           </TouchableOpacity>
+          <TouchableOpacity
+              onPress={this.accessCameraRoll}
+              style = {styles.userAction}
+          >
+            <Text style={{fontSize: 14, color: 'white'}}>Library</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center', backgroundColor: 'white'}}>
 
         <TouchableOpacity
-            onPress={() => this.props.saveToDb()}
-            style = {styles.userAction}
+            onPress={() => this.saveToDb()}
+            style={styles.userAction}
         >
             <Text style={{fontSize: 14, color: 'white'}}>Save</Text>
         </TouchableOpacity>
         <TouchableOpacity
             onPress={() => this.handleCancel()}
-            style = {styles.userAction}
+            style={styles.userAction}
         >
             <Text style={{fontSize: 14, color: 'white'}}>Cancel</Text>
         </TouchableOpacity>

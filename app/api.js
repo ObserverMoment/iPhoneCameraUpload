@@ -81,3 +81,15 @@ export const saveAssetsTodb = async (conceptId, newPhotos, newVideos, onSuccess,
     onFail()
   }
 }
+
+export const deleteAsset = async (assetId) => {
+  console.log('deleting asset', assetId);
+  try {
+    const asset = (await Attachment.find(assetId)).data;
+    console.log('asset', asset);
+    const success = await asset.destroy();
+    console.log('success', success);
+  } catch (err) {
+    console.log(err);
+  }
+}

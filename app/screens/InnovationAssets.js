@@ -66,7 +66,11 @@ export default class InnovationAssets extends Component {
           : <Text style={globalStyles.message}>No assets uploaded</Text>
         }
 
-        <Button title="Upload new asset" onPress={() => navigation.navigate('UploadAssets')} />
+        <Button title="Upload new asset" onPress={() => navigation.navigate(
+            'UploadAssets',
+            { partnerId: params.partnerId, innovationId: params.innovationId, name: params.name }
+          )}
+        />
         <Button title="Back to dashboard" onPress={() => navigation.navigate('Dashboard')} />
       </View>
     )
