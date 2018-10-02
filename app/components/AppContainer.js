@@ -10,7 +10,7 @@ export default AppContainer;
 
 const styles = StyleSheet.create({
   pageContainer: {
-    marginTop: 22,
+    marginTop: 40,
     flex: 1,
     backgroundColor: colors.appBackground,
     padding: 5
