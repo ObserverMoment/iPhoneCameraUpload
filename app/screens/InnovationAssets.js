@@ -62,24 +62,28 @@ export default class InnovationAssets extends Component {
     return (
       <View style={styles.container}>
         <Header navigation={navigation} />
-        <View style={styles.titleContainer}>
-          <StyledText style={styles.title}>{params.name}</StyledText>
-          {assets && assets.length > 0 &&
-            <Button title={editMode ? 'Done' : 'Edit'} type='textSmall' onPress={() => this.setState({editMode: !editMode})} />
-          }
+        <View style={styles.contentContainer}>
+          <View>
+            <View style={styles.titleContainer}>
+              <StyledText style={styles.title}>{params.name}</StyledText>
+              {assets && assets.length > 0 &&
+                <Button title={editMode ? 'Done' : 'Edit'} type='textSmall' onPress={() => this.setState({editMode: !editMode})} />
+              }
 
-        </View>
-        {assets && assets.length > 0
-          ? <AssetList assets={displayAssets} editMode={editMode}/>
-          : <StyledText style={styles.message}>No assets uploaded</StyledText>
-        }
-        <View style={styles.actions}>
-          <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
-              'UploadAssets',
-              { partnerId: params.partnerId, innovationId: params.innovationId, name: params.name }
-            )}
-          />
-          <Button title="Switch Innovation" type="primary" onPress={() => navigation.navigate('SelectInnovation')} />
+            </View>
+            {assets && assets.length > 0
+              ? <AssetList assets={displayAssets} editMode={editMode}/>
+              : <StyledText style={styles.message}>No assets uploaded</StyledText>
+            }
+          </View>
+          <View style={styles.actions}>
+            <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
+                'UploadAssets',
+                { partnerId: params.partnerId, innovationId: params.innovationId, name: params.name }
+              )}
+            />
+            <Button title="Switch Innovation" type="primary" onPress={() => navigation.navigate('SelectInnovation')} />
+          </View>
         </View>
       </View>
     )
@@ -89,6 +93,9 @@ export default class InnovationAssets extends Component {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+  },
+  contentContainer: {
+    flex: 1,
     justifyContent: 'space-between',
   },
   titleContainer: {

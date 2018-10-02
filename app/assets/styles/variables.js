@@ -4,6 +4,7 @@ export const colors = {
   tertiaryText: '#059690',
   warningText: '#e03c31',
   appBackground: '#1A2227',
+  lightBackground: '#eff1f2',
   primaryTone: '#059690',
   primaryToneOpac: 'rgba(5,150,144, 0.6)',
   secondaryTone: '#05665f',

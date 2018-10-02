@@ -17,7 +17,6 @@ export default class AssetList extends Component {
         {
           assets && assets.map(asset => (
             <Card key={asset.id}>
-              <View>
                 <StyledText style={styles.assetId}>Asset {asset.id}</StyledText>
                 <Image
                   style={styles.image}
@@ -32,8 +31,6 @@ export default class AssetList extends Component {
                                 />
                             </View>
                 }
-              </View>
-
             </Card>
           ))
         }
@@ -44,7 +41,6 @@ export default class AssetList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
@@ -62,8 +58,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     padding: 0,
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: 8,
+    right: 8,
     backgroundColor: 'transparent'
   }
 })
