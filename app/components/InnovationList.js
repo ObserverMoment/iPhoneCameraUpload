@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-import InnovationListItem from './InnovationListItem';
+import Button from './Button';
 
 export default class InnovationList extends Component {
   render() {
@@ -10,10 +10,18 @@ export default class InnovationList extends Component {
       <View style={styles.container}>
         {
           innovations && innovations.map(innovation => (
-            <InnovationListItem key={innovation.innovationId} innovation={innovation} navigation={navigation} />
+            <View key={innovation.innovationId}>
+              <Button
+                title={innovation.name}
+                type='primary'
+                onPress={() => navigation.navigate(
+                  'InnovationAssets',
+                  { partnerId: innovation.partnerId, innovationId: innovation.innovationId, name: innovation.name }
+                )}
+              />
+            </View>
           ))
         }
-
       </View>
     )
   }
@@ -21,7 +29,7 @@ export default class InnovationList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    padding: 10
   }
 })

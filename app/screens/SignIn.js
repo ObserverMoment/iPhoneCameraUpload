@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 
+import StyledText from '../components/StyledText';
 import Button from '../components/Button';
+
+import { colors, fonts } from '../assets/styles/variables';
 
 import { signIn } from '../api';
 
@@ -21,7 +24,7 @@ export default class SignIn extends Component {
 
   handleSignIn = () => {
     const { email, password } = this.state;
-    const onSuccess = () => this.props.navigation.navigate('App');
+    const onSuccess = () => this.props.navigation.navigate('SelectInnovation');
     signIn(email, password, onSuccess);
   }
 
@@ -30,8 +33,11 @@ export default class SignIn extends Component {
     const { email, password } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={[styles.text,styles.header ]}>InVenture Research</Text>
-        <Text style={[styles.text,styles.header ]}>Sign In</Text>
+        <View style={styles.logoContainer}>
+          <StyledText style={[styles.header, styles.logo1]}>IN</StyledText>
+          <StyledText style={[styles.header, styles.logo2]}>VENTURE </StyledText>
+          <StyledText style={styles.subTitle}>Assets</StyledText>
+        </View>
         <TextInput
           value={email.toLowerCase()}
           onChangeText={(email) => this.setState({ email })}
@@ -45,10 +51,7 @@ export default class SignIn extends Component {
           textContentType="password"
           secureTextEntry={true}
         />
-        <Button title="Submit" onPress={this.handleSignIn}
-        />
-        <Text style={styles.text}>Show / hide password</Text>
-        <Text style={styles.text}>Forgot password?</Text>
+        <Button title="Submit" type="primary" onPress={this.handleSignIn} />
       </View>
     )
   }
@@ -56,33 +59,49 @@ export default class SignIn extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     padding: 30,
     backgroundColor: '#1A2227',
-  },
-  text: {
     color: 'white'
   },
+  logoContainer: {
+    flexDirection: 'row'
+  },
   header: {
-    fontSize: 24,
-    textAlign: 'center',
-    padding: 10
+    fontSize: fonts.landingHeader,
+    fontWeight: 'bold',
+  },
+  logo1: {
+    color: colors.primaryTone,
+  },
+  logo2: {
+    color: colors.primaryText,
+  },
+  subTitle: {
+    fontSize: fonts.siteSubTitle,
+    color: colors.secondaryText,
+    alignSelf: 'flex-start',
+    marginTop: 5
+  },
+  text: {
+    color: colors.primaryText
   },
   textInput: {
+    alignSelf: 'stretch',
     borderColor: 'white',
     borderRadius: 4,
     borderWidth: 2,
-    color: 'white',
+    color: colors.primaryText,
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 6,
     paddingBottom: 6,
     margin: 10,
     height: 70,
-    fontSize: 28
+    fontSize: fonts.textInput
   }
 })

@@ -1,7 +1,13 @@
+import { colors, fonts } from './variables';
+
 export default {
   pageContainer: {
-    padding: 10,
-    flex: 1
+    marginTop: 22,
+    flex: 1,
+    color: colors.primaryText,
+    backgroundColor: colors.appBackground,
+    fontSize: fonts.appFontSize,
+    fontFamily: "MarkOT"
   },
   heading1: {
     padding: 10,

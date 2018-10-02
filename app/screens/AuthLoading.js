@@ -24,7 +24,7 @@ export default class AuthLoading extends Component {
         // Setting the .jwt attribute triggers the static generateAuthHeader function.
         ApplicationRecord.jwt = userToken;
         const user = (await User.find('me')).data;
-        this.props.navigation.navigate('App');
+        this.props.navigation.navigate('SelectInnovation');
       }
       catch (err) {
         console.log(err);

@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Header from '../components/Header';
 import InnovationList from '../components/InnovationList';
 
-import globalStyles from '../assets/styles/globalStyles';
+import { colors, fonts } from '../assets/styles/variables';
 
 import { getInnovations } from '../api';
 
@@ -40,9 +40,9 @@ export default class Dashboard extends Component {
     const displayInnovations = innovations.length > 8 ? innovations.slice(perPage * pageNumber, perPage * pageNumber + perPage) : innovations;
 
     return (
-      <View style={globalStyles.pageContainer}>
+      <View style={styles.container}>
         <Header navigation={navigation} />
-        <Text style={globalStyles.heading1}>Your Innovations</Text>
+        <Text style={styles.heading}>Select an Innovation</Text>
         <View style={styles.innovationListContainer}>
           <InnovationList innovations={displayInnovations} navigation={navigation} />
           <View style={styles.paginationContainer}>
@@ -65,9 +65,19 @@ export default class Dashboard extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  heading: {
+    color: colors.primaryText,
+    fontSize: fonts.h1,
+    textAlign: 'center',
+    marginTop: 10,
+  },
   innovationListContainer: {
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    padding: 5
   },
   paginationContainer: {
     alignItems: 'center',

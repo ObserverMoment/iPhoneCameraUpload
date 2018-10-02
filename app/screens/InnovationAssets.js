@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 import Header from '../components/Header';
 import AssetList from '../components/AssetList';
+import Button from '../components/Button';
+import StyledText from '../components/StyledText';
 
-import globalStyles from '../assets/styles/globalStyles';
+import { colors, fonts } from '../assets/styles/variables';
 
 import { getInnovationAssets } from '../api';
 
@@ -14,7 +16,9 @@ export default class InnovationAssets extends Component {
     this.state = {
       // Store the asset list for the innovation in here.
       assets: [], // Array of asset objects.
-      editMode: false
+      editMode: false,
+      perPage: 9,
+      pageNumber: 0
     }
   }
 
@@ -49,30 +53,60 @@ export default class InnovationAssets extends Component {
   }
 
   render() {
-    const { assets, editMode } = this.state;
+    const { assets, editMode, perPage, pageNumber } = this.state;
     const { navigation } = this.props;
     const { params } = navigation.state;
+    // Split assets into an array per page.
+    const totalPages = Math.ceil(assets.length / perPage);
+    const displayAssets = assets.length > perPage ? assets.slice(perPage * pageNumber, perPage * pageNumber + perPage) : assets;
     return (
-      <View style={globalStyles.pageContainer}>
+      <View style={styles.container}>
         <Header navigation={navigation} />
-        <Text style={globalStyles.heading1}>Innovation Assets for {params.name} </Text>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', padding: 20 }}>
-          <Text style={{ fontWeight: 'bold'}}>(Partner ID: {params.partnerId})</Text>
-          <Text style={{ fontWeight: 'bold'}}>(Innovation ID: {params.innovationId})</Text>
-          <Button title={editMode ? 'Done' : 'Edit'} onPress={() => this.setState({editMode: !editMode})} />
+        <View style={styles.titleContainer}>
+          <StyledText style={styles.title}>{params.name}</StyledText>
+          {assets && assets.length > 0 &&
+            <Button title={editMode ? 'Done' : 'Edit'} type='textSmall' onPress={() => this.setState({editMode: !editMode})} />
+          }
+
         </View>
         {assets && assets.length > 0
-          ? <AssetList assets={assets} editMode={editMode}/>
-          : <Text style={globalStyles.message}>No assets uploaded</Text>
+          ? <AssetList assets={displayAssets} editMode={editMode}/>
+          : <StyledText style={styles.message}>No assets uploaded</StyledText>
         }
-
-        <Button title="Upload new asset" onPress={() => navigation.navigate(
-            'UploadAssets',
-            { partnerId: params.partnerId, innovationId: params.innovationId, name: params.name }
-          )}
-        />
-        <Button title="Back to dashboard" onPress={() => navigation.navigate('Dashboard')} />
+        <View style={styles.actions}>
+          <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
+              'UploadAssets',
+              { partnerId: params.partnerId, innovationId: params.innovationId, name: params.name }
+            )}
+          />
+          <Button title="Switch Innovation" type="primary" onPress={() => navigation.navigate('SelectInnovation')} />
+        </View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 5,
+    padding: 5
+  },
+  title: {
+    color: colors.primaryText,
+    fontSize: fonts.h3,
+  },
+  message: {
+    color: colors.primaryText,
+    textAlign: 'center',
+    padding: 15
+  },
+  actions: {
+  }
+})

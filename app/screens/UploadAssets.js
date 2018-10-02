@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, CameraRoll } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
+import CameraButton from '../components/CameraButton';
+import StyledText from '../components/StyledText';
 import { saveAssetsTodb } from '../api';
 
 export default class UploadAssets extends Component {
@@ -44,6 +46,12 @@ export default class UploadAssets extends Component {
     }
   }
 
+  accessCameraRoll = () => {
+    CameraRoll.getPhotos({ first: 10 }).then(photos => {
+      console.log(photos);
+    }).catch(err => console.log(err))
+  }
+
   handleCancel = () => {
     const { partnerId, innovationId, name } = this.props.navigation.state.params;
     this.setState({ photos: [], videos: [] });
@@ -54,9 +62,7 @@ export default class UploadAssets extends Component {
   }
 
   render() {
-    CameraRoll.getPhotos().then(photos => {
-      console.log(photos);
-    });
+
     return (
       <View style={styles.container}>
         <View style={styles.imagePreviews}>
