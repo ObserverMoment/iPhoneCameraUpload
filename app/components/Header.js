@@ -15,8 +15,7 @@ export default class Header extends Component {
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Text style={[styles.header, styles.logo1]}>IN</Text>
-          <Text style={[styles.header, styles.logo2]}>VENTURE </Text>
-          <Text style={styles.subTitle}>Assets</Text>
+          <Text style={[styles.header, styles.logo2]}>VENTURE</Text>
         </View>
         <Button title="Sign Out" type="textSmall" onPress={this.handleSignOut}/>
       </View>
@@ -49,8 +48,4 @@ const styles = StyleSheet.create({
   logo2: {
     color: colors.primaryText,
   },
-  subTitle: {
-    fontSize: fonts.siteSubTitle,
-    color: colors.secondaryText
-  }
 })

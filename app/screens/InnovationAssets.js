@@ -22,24 +22,15 @@ export default class InnovationAssets extends Component {
     }
   }
 
-  handleData = (innovationData) => {
-    const assets = innovationData.innovation.concepts.reduce((acum, nextConcept) => {
-
-      const nextConceptCanvases = nextConcept.canvasesAttachments.reduce((acum, nextCanvas) => {
-        return [ ...acum, nextCanvas ];
-      }, [])
-
-      return [ ...acum, ...nextConceptCanvases];
-    }, []);
-
+  handleData = (assets) => {
     this.setState({ assets });
   }
 
   retrieveAssets = () => {
-    // Make an API call to get back all the canvasses here. Save the results into state.
-    const partnerId = this.props.navigation.state.params.partnerId;
-    const onSuccess = (innovationData) => this.handleData(innovationData);
-    getInnovationAssets(partnerId, onSuccess);
+    // Make an API call to get back all the assets here. Save the results into state.
+    const innovationId = this.props.navigation.state.params.innovationId;
+    const onSuccess = (assets) => this.handleData(assets);
+    getInnovationAssets(innovationId, onSuccess);
   }
 
   componentDidMount = () => {
@@ -79,7 +70,7 @@ export default class InnovationAssets extends Component {
           <View style={styles.actions}>
             <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
                 'UploadAssets',
-                { partnerId: params.partnerId, innovationId: params.innovationId, name: params.name }
+                { innovationId: params.innovationId }
               )}
             />
             <Button title="Switch Innovation" type="primary" onPress={() => navigation.navigate('SelectInnovation')} />

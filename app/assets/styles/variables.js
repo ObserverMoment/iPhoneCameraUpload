@@ -5,11 +5,13 @@ export const colors = {
   warningText: '#e03c31',
   appBackground: '#1A2227',
   lightBackground: '#eff1f2',
-  primaryTone: '#059690',
-  primaryToneOpac: 'rgba(5,150,144, 0.6)',
-  secondaryTone: '#05665f',
-  secondaryToneOpac: 'rgba(5,102,95, 0.6)',
+  primaryTone: '#05665f',
+  primaryToneOpac: 'rgba(#05665f, 0.6)',
+  secondaryTone: '#1d667b',
+  secondaryToneOpac: 'rgba(#1d667b, 0.6)',
   warningTone: '#e03c31',
+  coolBlue1: '#056296',
+  coolBlue2: '#259AED',
 }
 
 export const fonts = {

@@ -18,10 +18,6 @@ export default class SignIn extends Component {
     }
   }
 
-  handlePressEnter = () => {
-
-  }
-
   handleSignIn = () => {
     const { email, password } = this.state;
     const onSuccess = () => this.props.navigation.navigate('SelectInnovation');
@@ -35,8 +31,7 @@ export default class SignIn extends Component {
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <StyledText style={[styles.header, styles.logo1]}>IN</StyledText>
-          <StyledText style={[styles.header, styles.logo2]}>VENTURE </StyledText>
-          <StyledText style={styles.subTitle}>Assets</StyledText>
+          <StyledText style={[styles.header, styles.logo2]}>VENTURE</StyledText>
         </View>
         <TextInput
           value={email.toLowerCase()}
@@ -80,12 +75,6 @@ const styles = StyleSheet.create({
   },
   logo2: {
     color: colors.primaryText,
-  },
-  subTitle: {
-    fontSize: fonts.siteSubTitle,
-    color: colors.secondaryText,
-    alignSelf: 'flex-start',
-    marginTop: 5
   },
   text: {
     color: colors.primaryText

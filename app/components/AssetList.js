@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import Card from './Card';
 import StyledText from './StyledText';
-
 import { colors } from '../assets/styles/variables';
-
 import { deleteAsset } from '../api';
+import { apiConfig } from '../config';
 
 export default class AssetList extends Component {
   render() {
@@ -16,22 +14,27 @@ export default class AssetList extends Component {
       <View style={styles.container}>
         {
           assets && assets.map(asset => (
-            <Card key={asset.id}>
-                <StyledText style={styles.assetId}>Asset {asset.id}</StyledText>
+            <View key={asset.id}>
                 <Image
                   style={styles.image}
-                  source={{ uri: `https://inventure-api-staging.herokuapp.com${asset.url}`}}
+                  source={{ uri: `${apiConfig.apiDomain}${asset.url}`}}
                 />
-                {editMode && <View style={styles.iconContainer}>
-                                <Icon
-                                  name='remove-circle'
-                                  type='ion-icon'
-                                  color={colors.warningTone}
-                                  size={18}
-                                />
-                            </View>
+                {asset.title &&
+                  <StyledText style={styles.assetTitle}>
+                    Asset {asset.title.length > 20 ? asset.title.slice(0,20) : asset.title }
+                  </StyledText>
                 }
-            </Card>
+                {editMode && (
+                  <View style={styles.iconContainer}>
+                    <Icon
+                      name='remove-circle'
+                      type='ion-icon'
+                      color={colors.warningTone}
+                      size={18}
+                    />
+                  </View>
+                )}
+            </View>
           ))
         }
       </View>
@@ -48,12 +51,15 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 10,
   },
-  assetId: {
-    padding: 2
+  assetTitle: {
+    padding: 2,
+    maxWidth: 90,
   },
   image: {
-    width: 95,
-    height: 95,
+    width: 90,
+    height: 90,
+    maxWidth: 90,
+    maxHeight: 90,
   },
   iconContainer: {
     padding: 0,

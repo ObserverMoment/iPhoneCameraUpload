@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-import Button from './Button';
+import SprintCard from './SprintCard';
 
 export default class InnovationList extends Component {
   render() {
     const { innovations, navigation } = this.props;
     return (
       <View style={styles.container}>
-        {
-          innovations && innovations.map(innovation => (
-            <View key={innovation.innovationId}>
-              <Button
-                title={innovation.name}
-                type='primary'
-                onPress={() => navigation.navigate(
-                  'InnovationAssets',
-                  { partnerId: innovation.partnerId, innovationId: innovation.innovationId, name: innovation.name }
-                )}
-              />
-            </View>
-          ))
-        }
+        {innovations && innovations.map(innovation => (
+          <TouchableOpacity
+            key={innovation.id}
+            onPress={() => navigation.navigate(
+              'InnovationAssets',
+              { innovationId: innovation.id, name: innovation.sprintName }
+            )}
+          >
+            <SprintCard
+              innovation={innovation}
+            />
+          </TouchableOpacity>
+        ))}
       </View>
     )
   }

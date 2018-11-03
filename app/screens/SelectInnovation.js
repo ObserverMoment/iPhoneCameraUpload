@@ -19,12 +19,7 @@ export default class Dashboard extends Component {
   }
 
   // The top level object coming in here is the Partner.
-  handleData = (partners) => {
-    const innovations = partners
-      ? partners.map(partner => (
-          { partnerId: partner.id, name: partner.innovation.sprintName, innovationId: partner.innovation.id }
-        ))
-      : []
+  handleData = (innovations) => {
     this.setState({ innovations });
   }
 
@@ -38,11 +33,11 @@ export default class Dashboard extends Component {
     // Split innovations into an array per page.
     const totalPages = Math.ceil(innovations.length / perPage);
     const displayInnovations = innovations.length > 8 ? innovations.slice(perPage * pageNumber, perPage * pageNumber + perPage) : innovations;
-
+    console.log(this.state);
     return (
       <View style={styles.container}>
         <Header navigation={navigation} />
-        <Text style={styles.heading}>Select an Innovation</Text>
+        <Text style={styles.heading}>Innovations</Text>
         <View style={styles.innovationListContainer}>
           <InnovationList innovations={displayInnovations} navigation={navigation} />
           <View style={styles.paginationContainer}>

@@ -7,10 +7,10 @@ const CameraButton = ({ onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={styles.iconContainer}>
       <Icon
-        name='camera'
+        name='add-circle'
         type='ion-icon'
-        size={90}
-        color={colors.primaryTone}
+        size={50}
+        color={colors.coolBlue2}
       />
     </View>
     <Icon />

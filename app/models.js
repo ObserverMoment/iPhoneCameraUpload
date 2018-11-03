@@ -10,7 +10,7 @@ import { AsyncStorage } from "react-native"
 
 export const ApplicationRecord = JSORMBase.extend({
   static: {
-    baseUrl: 'https://inventure-api-staging.herokuapp.com',
+    baseUrl: 'http://localhost:3000',
     apiNamespace: '/api/v2',
     jwtStorage: 'inventure-auth',
     generateAuthHeader(auth) {
@@ -177,6 +177,8 @@ export const Attachment = ApplicationRecord.extend({
     filename: attr(),
     url: attr(),
     name: attr(),
+    title: attr(),
+    blobId: attr(),
     recordId: attr(),
     recordType: attr(),
     record: belongsTo()

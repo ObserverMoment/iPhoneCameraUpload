@@ -23,7 +23,7 @@ const defaultStyles = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-    borderRadius: 4,
+    borderRadius: 2,
     shadowOffset: { width: 2, height: 2},
     shadowColor: 'black',
     shadowOpacity: 0.3,
