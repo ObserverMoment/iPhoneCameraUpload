@@ -5,7 +5,7 @@ import AppContainer from './components/AppContainer';
 import AuthLoading from './screens/AuthLoading';
 import SignIn from './screens/SignIn';
 import ForgotPassword from './screens/ForgotPassword';
-import InnovationAssets from './screens/InnovationAssets';
+import InnovationOverview from './screens/InnovationOverview';
 import SelectInnovation from './screens/SelectInnovation';
 import UploadAssets from './screens/UploadAssets';
 
@@ -17,7 +17,7 @@ const AuthStack = createSwitchNavigator(
 );
 
 const AssetStack = createSwitchNavigator({
-  InnovationAssets: InnovationAssets,
+  InnovationOverview: InnovationOverview,
   UploadAssets: UploadAssets,
 });
 

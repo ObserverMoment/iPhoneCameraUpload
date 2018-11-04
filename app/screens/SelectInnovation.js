@@ -33,7 +33,7 @@ export default class Dashboard extends Component {
     // Split innovations into an array per page.
     const totalPages = Math.ceil(innovations.length / perPage);
     const displayInnovations = innovations.length > 8 ? innovations.slice(perPage * pageNumber, perPage * pageNumber + perPage) : innovations;
-    console.log(this.state);
+
     return (
       <View style={styles.container}>
         <Header navigation={navigation} />

@@ -12,7 +12,7 @@ export default class InnovationList extends Component {
           <TouchableOpacity
             key={innovation.id}
             onPress={() => navigation.navigate(
-              'InnovationAssets',
+              'InnovationOverview',
               { innovationId: innovation.id, name: innovation.sprintName }
             )}
           >

@@ -68,12 +68,13 @@ export default class InnovationAssets extends Component {
             }
           </View>
           <View style={styles.actions}>
+            <Button title="Add Concept" type="primary" onPress={() => console.log('TODO')} />
             <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
                 'UploadAssets',
                 { innovationId: params.innovationId }
               )}
             />
-            <Button title="Switch Innovation" type="primary" onPress={() => navigation.navigate('SelectInnovation')} />
+            <Button title="Switch Innovation" type="secondary" onPress={() => navigation.navigate('SelectInnovation')} />
           </View>
         </View>
       </View>
