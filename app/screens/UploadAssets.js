@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, CameraRoll, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, CameraRoll } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { Icon } from 'react-native-elements';
 
@@ -7,7 +7,6 @@ import ImageViewer from '../components/ImageViewer';
 import CameraButton from '../components/CameraButton';
 import Loader from '../components/Loader';
 import Button from '../components/Button';
-import StyledText from '../components/StyledText';
 
 import { colors } from '../assets/styles/variables';
 
@@ -54,11 +53,11 @@ export default class UploadAssets extends Component {
   }
 
   handleCancel = () => {
-    const { innovationId, name } = this.props.navigation.state.params;
+    const { innovation } = this.props.navigation.state.params;
     this.setState({ newPhoto: null });
     this.props.navigation.navigate(
       'InnovationOverview',
-      { innovationId, name }
+      { innovation }
     );
   }
 
@@ -76,7 +75,8 @@ export default class UploadAssets extends Component {
               cancelLabel="Re-Take"
               onCancel={() => this.setState({ newPhoto: null })}
               cancelButtonType="textSmall"
-              uri={newPhoto.uri}
+              source={{ uri: newPhoto.uri }}
+              hasConfirm
             />
           )
           : (
@@ -101,7 +101,6 @@ export default class UploadAssets extends Component {
                   : <Loader />
                 }
               </View>
-
               <View style={styles.userActions}>
                 <Button title="Library" type="textSmall" onPress={this.accessCameraRoll}/>
                 <CameraButton onPress={this.takePicture}/>

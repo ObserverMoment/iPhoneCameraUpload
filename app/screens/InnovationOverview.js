@@ -10,13 +10,12 @@ import { colors, fonts } from '../assets/styles/variables';
 
 import { getInnovationAssets } from '../api';
 
-export default class InnovationAssets extends Component {
+export default class InnovationOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // Store the asset list for the innovation in here.
       assets: [], // Array of asset objects.
-      editMode: false,
       perPage: 9,
       pageNumber: 0
     }
@@ -38,15 +37,16 @@ export default class InnovationAssets extends Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.navigation.state.params.partnerId !== this.props.navigation.state.params.partnerId) {
+    if (prevProps.navigation.state.params.innovationId !== this.props.navigation.state.params.innovationId) {
       this.retrieveAssets();
     }
   }
 
   render() {
-    const { assets, editMode, perPage, pageNumber } = this.state;
+    const { assets, perPage, pageNumber } = this.state;
     const { navigation } = this.props;
-    const { params } = navigation.state;
+    const { params: { innovation } } = navigation.state;
+
     // Split assets into an array per page.
     const totalPages = Math.ceil(assets.length / perPage);
     const displayAssets = assets.length > perPage ? assets.slice(perPage * pageNumber, perPage * pageNumber + perPage) : assets;
@@ -56,14 +56,10 @@ export default class InnovationAssets extends Component {
         <View style={styles.contentContainer}>
           <View>
             <View style={styles.titleContainer}>
-              <StyledText style={styles.title}>{params.name}</StyledText>
-              {assets && assets.length > 0 &&
-                <Button title={editMode ? 'Done' : 'Edit'} type='textSmall' onPress={() => this.setState({editMode: !editMode})} />
-              }
-
+              <StyledText style={styles.title}>{innovation.sprintName}</StyledText>
             </View>
             {assets && assets.length > 0
-              ? <AssetList assets={displayAssets} editMode={editMode}/>
+              ? <AssetList assets={displayAssets} />
               : <StyledText style={styles.message}>No assets uploaded</StyledText>
             }
           </View>
@@ -71,7 +67,7 @@ export default class InnovationAssets extends Component {
             <Button title="Add Concept" type="primary" onPress={() => console.log('TODO')} />
             <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
                 'UploadAssets',
-                { innovationId: params.innovationId }
+                { innovation }
               )}
             />
             <Button title="Switch Innovation" type="secondary" onPress={() => navigation.navigate('SelectInnovation')} />

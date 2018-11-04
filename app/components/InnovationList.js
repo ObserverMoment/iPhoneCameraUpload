@@ -13,7 +13,7 @@ export default class InnovationList extends Component {
             key={innovation.id}
             onPress={() => navigation.navigate(
               'InnovationOverview',
-              { innovationId: innovation.id, name: innovation.sprintName }
+              { innovation: innovation }
             )}
           >
             <SprintCard

@@ -1,17 +1,22 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOPacity, Text } from 'react-native';
+import PropTypes from 'prop-types';
+import { StyleSheet, View, Image, TouchableOPacity } from 'react-native';
 
+import StyledText from './StyledText';
 import Button from './Button';
 
-const ImageViewer = ({ confirmLabel, onConfirm, confirmButtonType, cancelLabel, onCancel, cancelButtonType, uri }) => {
+const ImageViewer = ({ cancelLabel, onCancel, cancelButtonType, confirmLabel, onConfirm, confirmButtonType, source, title, hasConfirm }) => {
   return (
     <View style={styles.container}>
       <View style={styles.actions}>
         <Button title={cancelLabel} type={cancelButtonType} onPress={onCancel} />
-        <Button title={confirmLabel} type={confirmButtonType} onPress={onConfirm} />
+        {hasConfirm &&
+          <Button title={confirmLabel} type={confirmButtonType} onPress={onConfirm} />
+        }
       </View>
       <View style={styles.imageContainer}>
-        <Image source={{ uri }} />
+        <Image style={styles.image} source={source} />
+        {/* {title && <StyledText style={styles.title}>{title}</StyledText>} */}
       </View>
     </View>
   )
@@ -24,9 +29,38 @@ const styles = StyleSheet.create({
 
   },
   actions: {
-
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   imageContainer: {
-
+    padding: 10,
+    margin: 10,
+  },
+  image: {
+    height: 300,
+  },
+  title: {
+    textAlign: 'center',
   }
 })
+
+ImageViewer.propTypes = {
+  confirmLabel: PropTypes.string,
+  onConfirm: PropTypes.func,
+  confirmButtonType: PropTypes.string,
+  cancelLabel: PropTypes.string,
+  onCancel: PropTypes.func.isRequired,
+  cancelButtonType: PropTypes.string,
+  source: PropTypes.object.isRequired,
+  hasConfirm: PropTypes.bool,
+  title: PropTypes.string,
+}
+
+ImageViewer.defaultProps = {
+  confirmLabel: 'Confirm',
+  confirmButtonType: 'textSmall',
+  cancelLabel: 'Close',
+  cancelButtonType: 'textSmall',
+  hasConfirm: false,
+  title: '',
+}
