@@ -6,12 +6,14 @@ const {
   hasOne
 } = require('jsorm/dist/jsorm');
 
+import { apiConfig } from './config/index';
+
 import { AsyncStorage } from "react-native"
 
 export const ApplicationRecord = JSORMBase.extend({
   static: {
-    baseUrl: 'http://localhost:3000',
-    apiNamespace: '/api/v2',
+    baseUrl: apiConfig.apiDomain,
+    apiNamespace: apiConfig.apiNamespace,
     jwtStorage: 'inventure-auth',
     generateAuthHeader(auth) {
       const authObj = JSON.parse(auth);
@@ -165,6 +167,20 @@ export const Concept = ApplicationRecord.extend({
     innovation: belongsTo(),
     targetIndustry: belongsTo(),
     canvasesAttachments: hasMany()
+  }
+});
+
+export const KeyDate = ApplicationRecord.extend({
+  static: {
+    jsonapiType: 'key_dates'
+  },
+  attrs: {
+    id: attr(),
+    name: attr(),
+    date: attr(),
+    keyDatableId: attr(),
+    keyDatableType: attr(),
+    keyDatable: belongsTo()
   }
 });
 

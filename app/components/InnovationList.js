@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 
 import SprintCard from './SprintCard';
 
@@ -7,7 +7,7 @@ export default class InnovationList extends Component {
   render() {
     const { innovations, navigation } = this.props;
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         {innovations && innovations.map(innovation => (
           <TouchableOpacity
             key={innovation.id}
@@ -15,13 +15,14 @@ export default class InnovationList extends Component {
               'InnovationOverview',
               { innovation: innovation }
             )}
+            style={styles.sprintCard}
           >
             <SprintCard
               innovation={innovation}
             />
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -29,6 +30,10 @@ export default class InnovationList extends Component {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-around',
-    padding: 10
-  }
+    padding: 4,
+    marginTop: 5,
+  },
+  sprintCard: {
+    marginVertical: 1,
+  },
 })

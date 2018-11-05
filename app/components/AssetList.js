@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import ImageViewer from './ImageViewer';
 import StyledText from './StyledText';
-import Button from './Button';
 import { colors } from '../assets/styles/variables';
 import { deleteAsset } from '../api';
 import { apiConfig } from '../config';
@@ -13,70 +11,55 @@ export default class AssetList extends Component {
   constructor() {
     super();
     this.state = {
-      editMode: false,
-      openViewer: false,
-      assetToView: null,
+
     }
   }
   render() {
-    const { openViewer, assetToView, editMode } = this.state;
-    const { assets } = this.props;
-
+    const { assets, openViewer } = this.props;
     return (
-      <View style={styles.container}>
-        {!openViewer
-          ? (
-            <Fragment>
-              <Button title={editMode ? 'Done' : 'Edit'} type='textSmall' onPress={() => this.setState({editMode: !editMode})} />
-              <View style={styles.listContainer}>
-                {assets && assets.map(asset => (
-                  <TouchableOpacity key={asset.id} onPress={() => this.setState({ openViewer: true, assetToView: asset })}>
-                    <View style={styles.asset}>
-                        <Image
-                          style={styles.image}
-                          source={{ uri: `${apiConfig.apiDomain}${asset.url}`}}
-                        />
-                        {asset.title &&
-                          <StyledText style={styles.assetTitle}>
-                            Asset {asset.title.length > 20 ? asset.title.slice(0,20) : asset.title }
-                          </StyledText>
-                        }
-                        {editMode && (
-                          <View style={styles.iconsContainer}>
-                            <View style={styles.icons}>
-                              <View style={styles.icon}>
-                                <Icon
-                                  name='edit'
-                                  color={colors.coolBlue1}
-                                  size={22}
-                                />
-                              </View>
-                              <View style={styles.icon}>
-                                <Icon
-                                  style={styles.icon}
-                                  name='remove-circle'
-                                  type='ion-icon'
-                                  color={colors.warningTone}
-                                  size={22}
-                                />
-                              </View>
-                            </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.listContainer}>
+          {assets && assets.map(asset => (
+            <TouchableOpacity key={asset.id} onPress={() => openViewer(asset)}>
+              <View style={styles.asset}>
+                  <Image
+                    style={styles.image}
+                    source={{ uri: `${apiConfig.apiDomain}${asset.url}`}}
+                  />
+                  {asset.title &&
+                    <StyledText
+                      style={styles.assetTitle}
+                      text={asset.title.length > 20 ? asset.title.slice(0,20) : asset.title }
+                    />
+                  }
+                  {/* {editMode && (
+                    <View style={styles.iconsContainer}>
+                      <View style={styles.icons}>
+                        <View style={styles.icon}>
+                          <Icon
+                            name='edit'
+                            color={colors.coolBlue1}
+                            size={22}
+                          />
+                        </View>
+                        <View style={styles.icon}>
+                          <Icon
+                            style={styles.icon}
+                            name='remove-circle'
+                            type='ion-icon'
+                            color={colors.warningTone}
+                            size={22}
+                          />
+                        </View>
+                      </View>
 
-                          </View>
-                        )}
                     </View>
-                  </TouchableOpacity>
-                ))}
+                  )} */}
               </View>
-            </Fragment>
-          )
-          : <ImageViewer
-              onCancel={() => this.setState({ openViewer: false })}
-              source={{ uri: `${apiConfig.apiDomain}${assetToView.url}`}}
-              title={assetToView.title}
-            />
-        }
-      </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
     )
   }
 }
@@ -89,7 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     padding: 5,
     marginBottom: 10,
   },
@@ -97,16 +80,15 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   assetTitle: {
-    fontSize: 10,
+    fontSize: 12,
     padding: 2,
     maxWidth: 90,
-    textAlign: 'center',
   },
   image: {
-    width: 90,
-    height: 90,
-    maxWidth: 90,
-    maxHeight: 90,
+    minWidth: 130,
+    minHeight: 130,
+    maxWidth: 150,
+    maxHeight: 150,
   },
   iconsContainer: {
     ...StyleSheet.absoluteFillObject,

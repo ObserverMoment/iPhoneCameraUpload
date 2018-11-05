@@ -23,9 +23,10 @@ export default class UploadAssets extends Component {
   }
 
   saveToDb = () => {
-    const { innovationId } = this.props.navigation.state.params;
+    const { innovation: { id } } = this.props.navigation.state.params;
     this.setState({ isProcessing: true });
-    uploadAsset('canvases', innovationId, 'Innovation', this.state.newPhoto, this.confirmUpload, this.alertFailedUpload);
+    console.log(this.state);
+    uploadAsset('canvases', id, 'Innovation', this.state.newPhoto, this.confirmUpload, this.alertFailedUpload);
   }
 
   confirmUpload = () => {
@@ -41,8 +42,12 @@ export default class UploadAssets extends Component {
   takePicture = async () => {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
-      const imageCapture = await this.camera.takePictureAsync(options)
-      this.setState({ newPhoto: imageCapture });
+      try {
+        const imageCapture = await this.camera.takePictureAsync(options);
+        this.setState({ newPhoto: imageCapture });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
@@ -98,7 +103,7 @@ export default class UploadAssets extends Component {
                         }}
                     />
                   )
-                  : <Loader />
+                  : <Loader size='large' color='#00ff00'/>
                 }
               </View>
               <View style={styles.userActions}>
@@ -130,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 5,
     backgroundColor: colors.appBackground,
-    flex: 0.15,
+    flex: 0.14,
     flexDirection: 'row',
   },
 });

@@ -10,7 +10,7 @@ const CameraButton = ({ onPress }) => (
         name='add-circle'
         type='ion-icon'
         size={50}
-        color={colors.coolBlue2}
+        color={colors.coolBlue1}
       />
     </View>
     <Icon />

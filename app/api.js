@@ -55,6 +55,7 @@ export const getInnovationAssets = async (id, onSuccess=null, onFail=null) => {
   try {
     await buildHeader();
     const { data } = await Attachment.where({ record_id: id }).all();
+    console.log('Get assets', data);
     onSuccess(data);
   } catch (err) {
     console.log(err);
@@ -73,6 +74,7 @@ export const getInnovationAssets = async (id, onSuccess=null, onFail=null) => {
 
 export const uploadAsset = async (assetType, parentId, parentType, asset, onSuccess=null, onFail=null) => {
   try {
+    console.log(asset);
     await buildHeader();
     const newAsset = new Attachment({
       data: asset.base64,
@@ -81,7 +83,7 @@ export const uploadAsset = async (assetType, parentId, parentType, asset, onSucc
       recordId: parentId,
       recordType: parentType,
     });
-
+    console.log(newAsset);
     await newAsset.save()
 
     onSuccess();

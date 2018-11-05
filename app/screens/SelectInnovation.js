@@ -40,7 +40,7 @@ export default class Dashboard extends Component {
         <Text style={styles.heading}>Innovations</Text>
         <View style={styles.innovationListContainer}>
           <InnovationList innovations={displayInnovations} navigation={navigation} />
-          <View style={styles.paginationContainer}>
+          {/* <View style={styles.paginationContainer}>
             <View style={styles.pagination}>
               {totalPages > 1 && [...Array(totalPages).keys()].map(pageNumber => (
                 <TouchableOpacity
@@ -52,7 +52,7 @@ export default class Dashboard extends Component {
                 </TouchableOpacity>
               ))}
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
     )
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   innovationListContainer: {
     flex: 1,
     justifyContent: 'space-between',
-    padding: 5
   },
   paginationContainer: {
     alignItems: 'center',

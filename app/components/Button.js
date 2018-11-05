@@ -24,9 +24,9 @@ const defaultStyles = {
     alignItems: 'center',
     margin: 5,
     borderRadius: 2,
-    shadowOffset: { width: 2, height: 2},
+    shadowOffset: { width: 1, height: 1},
     shadowColor: 'black',
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 2,
   },
   text: {

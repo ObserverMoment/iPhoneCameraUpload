@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 
 import Header from '../components/Header';
 import AssetList from '../components/AssetList';
+import ImageViewer from '../components/ImageViewer';
 import Button from '../components/Button';
 import StyledText from '../components/StyledText';
 
@@ -10,14 +11,16 @@ import { colors, fonts } from '../assets/styles/variables';
 
 import { getInnovationAssets } from '../api';
 
+import { apiConfig } from '../config';
+
 export default class InnovationOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // Store the asset list for the innovation in here.
       assets: [], // Array of asset objects.
-      perPage: 9,
-      pageNumber: 0
+      openViewer: false,
+      assetToView: null,
     }
   }
 
@@ -25,53 +28,73 @@ export default class InnovationOverview extends Component {
     this.setState({ assets });
   }
 
-  retrieveAssets = () => {
+  retrieveAssets = (id) => {
     // Make an API call to get back all the assets here. Save the results into state.
-    const innovationId = this.props.navigation.state.params.innovationId;
     const onSuccess = (assets) => this.handleData(assets);
-    getInnovationAssets(innovationId, onSuccess);
+    getInnovationAssets(id, onSuccess);
   }
 
   componentDidMount = () => {
-    this.retrieveAssets();
+    this.mounted = true;
+    this.retrieveAssets(this.props.navigation.state.params.innovation.id);
   }
 
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.navigation.state.params.innovationId !== this.props.navigation.state.params.innovationId) {
-      this.retrieveAssets();
+  componentWillReceiveProps = (prevProps) => {
+    if (prevProps.navigation.state.params.innovation.id !== this.props.navigation.state.params.innovation.id) {
+      if (this.mounted) {
+        this.retrieveAssets(this.props.navigation.state.params.innovation.id);
+      }
     }
   }
 
+  componentWillUnmount = () => {
+    this.mounted = false;
+  }
+
+  handleOpenViewer = (asset) => {
+    this.setState({ openViewer: true, assetToView: asset });
+  }
+
   render() {
-    const { assets, perPage, pageNumber } = this.state;
+    const { assets, openViewer, assetToView } = this.state;
     const { navigation } = this.props;
     const { params: { innovation } } = navigation.state;
 
-    // Split assets into an array per page.
-    const totalPages = Math.ceil(assets.length / perPage);
-    const displayAssets = assets.length > perPage ? assets.slice(perPage * pageNumber, perPage * pageNumber + perPage) : assets;
     return (
       <View style={styles.container}>
         <Header navigation={navigation} />
         <View style={styles.contentContainer}>
-          <View>
-            <View style={styles.titleContainer}>
-              <StyledText style={styles.title}>{innovation.sprintName}</StyledText>
-            </View>
-            {assets && assets.length > 0
-              ? <AssetList assets={displayAssets} />
-              : <StyledText style={styles.message}>No assets uploaded</StyledText>
-            }
+          <View style={styles.titleContainer}>
+            <StyledText style={styles.title} text={innovation.sprintName} />
           </View>
-          <View style={styles.actions}>
-            <Button title="Add Concept" type="primary" onPress={() => console.log('TODO')} />
-            <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
-                'UploadAssets',
-                { innovation }
-              )}
-            />
-            <Button title="Switch Innovation" type="secondary" onPress={() => navigation.navigate('SelectInnovation')} />
-          </View>
+          {assets && assets.length > 0
+            ? openViewer && assetToView
+              ? (
+                <ImageViewer
+                  onCancel={() => this.setState({ openViewer: false, assetToView: null })}
+                  source={{ uri: `${apiConfig.apiDomain}${assetToView.url}`}}
+                  title={assetToView.title}
+                />
+              )
+              : (
+                <View style={styles.listContainer}>
+                  <AssetList assets={assets} openViewer={this.handleOpenViewer}/>
+                  <View style={styles.actions}>
+                    <Button title="Add Concept" type="primary" onPress={() => navigation.navigate(
+                        'AddConcept',
+                        { id: innovation.id, assets: innovation }
+                      )} />
+                    <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
+                        'UploadAssets',
+                        { innovationId: innovation.id, innovationAssets: assets }
+                      )}
+                    />
+                    <Button title="Switch Innovation" type="secondary" onPress={() => navigation.navigate('SelectInnovation')} />
+                  </View>
+                </View>
+              )
+            : <StyledText style={styles.message} text="No assets uploaded" />
+          }
         </View>
       </View>
     )
@@ -84,7 +107,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'space-between',
   },
   titleContainer: {
     flexDirection: 'row',
@@ -92,6 +114,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5,
     padding: 5
+  },
+  listContainer: {
+    justifyContent: 'space-around',
+    flex: 1,
+    marginBottom: 10,
   },
   title: {
     color: colors.primaryText,

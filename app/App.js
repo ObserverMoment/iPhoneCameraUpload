@@ -7,6 +7,7 @@ import SignIn from './screens/SignIn';
 import ForgotPassword from './screens/ForgotPassword';
 import InnovationOverview from './screens/InnovationOverview';
 import SelectInnovation from './screens/SelectInnovation';
+import AddConcept from './screens/AddConcept';
 import UploadAssets from './screens/UploadAssets';
 
 const AuthStack = createSwitchNavigator(
@@ -18,6 +19,7 @@ const AuthStack = createSwitchNavigator(
 
 const AssetStack = createSwitchNavigator({
   InnovationOverview: InnovationOverview,
+  AddConcept: AddConcept,
   UploadAssets: UploadAssets,
 });
 

@@ -10,10 +10,10 @@ const SprintCard = ({ innovation }) => {
   return (
     <View style={styles.sprintCard}>
       <Text style={styles.sprintCardText}>{innovation.sprintName}</Text>
-      <Text style={styles.sprintCardText}>{innovation.chargeCode}</Text>
-      <Text style={styles.sprintCardText}>{dvOfficesById[innovation.dvOfficeId]}</Text>
-      <Text style={styles.sprintCardText}>{innovationTypeLabels[innovation.sprintType]}</Text>
-      <Text style={styles.sprintCardText}>{nextStageName}</Text>
+      <Text style={styles.sprintCardText}>Case code: {innovation.chargeCode}</Text>
+      <Text style={styles.sprintCardText}>DV Office: {dvOfficesById[innovation.dvOfficeId]}</Text>
+      <Text style={styles.sprintCardText}>Type: {innovationTypeLabels[innovation.sprintType]}</Text>
+      <Text style={styles.sprintCardText}>Currently in {nextStageName}</Text>
     </View>
   )
 }
