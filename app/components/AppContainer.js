@@ -2,9 +2,29 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { colors, fonts } from '../assets/styles/variables';
 
-const AppContainer = ({ children }) => (
-  <View style={styles.pageContainer}>{children}</View>
-)
+export default class AppContainer extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showLoader: false,
+      notification: null,
+    }
+  }
+
+  render() {
+    const { showLoader, notification } = this.state;
+    const { children } = this.props;
+    return (
+      <View style={styles.pageContainer}>
+        <View>{children}</View>
+        <View>
+          {showLoader && <Loader />}
+          {notification && <Notifier />}
+        </View>
+      </View>
+    )
+  }
+}
 
 export default AppContainer;
 
