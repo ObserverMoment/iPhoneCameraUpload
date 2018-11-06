@@ -30,8 +30,8 @@ export default class SignIn extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.logoContainer}>
-          <StyledText style={[styles.header, styles.logo1]}>IN</StyledText>
-          <StyledText style={[styles.header, styles.logo2]}>VENTURE</StyledText>
+          <StyledText style={[styles.header, styles.logo1]} text="IN" />
+          <StyledText style={[styles.header, styles.logo2]} text="VENTURE" />
         </View>
         <TextInput
           value={email.toLowerCase()}

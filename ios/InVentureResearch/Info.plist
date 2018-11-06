@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>InVentureResearch</string>
+	<string>InVenture</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -41,11 +41,11 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>InVenture Research would like to use your camera</string>
+	<string>InVenture would like to use your camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>InVenture Research would like to use your camera</string>
+	<string>InVenture would like to use your camera</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>InVenture Research would like to use your camera</string>
+	<string>InVenture would like to use your camera</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

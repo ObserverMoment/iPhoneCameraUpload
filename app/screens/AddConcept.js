@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput, Keyboard } from 'react-native';
 
 import AssetSelector from '../components/AssetSelector';
 import StyledText from '../components/StyledText';
@@ -100,7 +100,7 @@ export default class AddConcept extends Component {
           <Button
             type="textSmall"
             title="Cancel"
-            onPress={() => navigation.navigate('InnovationOverview', { innovation, assets })}
+            onPress={() => this.props.navigation.navigate('InnovationOverview', { innovation, assets })}
           />
         </View>
       </View>
