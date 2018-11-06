@@ -82,11 +82,11 @@ export default class InnovationOverview extends Component {
                   <View style={styles.actions}>
                     <Button title="Add Concept" type="primary" onPress={() => navigation.navigate(
                         'AddConcept',
-                        { id: innovation.id, assets: innovation }
+                        { innovation, assets }
                       )} />
                     <Button title="Upload Asset" type="primary" onPress={() => navigation.navigate(
                         'UploadAssets',
-                        { innovationId: innovation.id, innovationAssets: assets }
+                        { innovation, assets }
                       )}
                     />
                     <Button title="Switch Innovation" type="secondary" onPress={() => navigation.navigate('SelectInnovation')} />

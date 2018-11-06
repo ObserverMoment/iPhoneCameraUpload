@@ -50,12 +50,33 @@ export const getInnovations = async (onSuccess=null, onFail=null) => {
   }
 }
 
+export const createConcept = async (innovationId, attrsToCreate, onSuccess=null, onFail=null) => {
+  try {
+    await buildHeader();
+    const newConcept = new Concept();
+    for ( const key of Object.keys(attrsToCreate) ) {
+      newConcept[key] = attrsToCreate[key];
+    }
+    newConcept.innovationId = innovationId;
+    await newConcept.save();
+
+    if (attrsToCreate.assetsToLink) {
+      await linkAssets(newConcept.id, 'Concept', 'canvases', attrsToCreate.assetsToLink)
+    }
+
+    onSuccess && onSuccess();
+  }
+  catch (err) {
+    console.log(err);
+    onFail && onFail();
+  }
+}
+
 // First param is the partner Id
 export const getInnovationAssets = async (id, onSuccess=null, onFail=null) => {
   try {
     await buildHeader();
     const { data } = await Attachment.where({ record_id: id }).all();
-    console.log('Get assets', data);
     onSuccess(data);
   } catch (err) {
     console.log(err);
@@ -63,18 +84,8 @@ export const getInnovationAssets = async (id, onSuccess=null, onFail=null) => {
   }
 }
 
-// export const getInnovationConcepts = async (id, onSuccess=null, onFail=null) => {
-//   try {
-//     buildHeader();
-//   } catch (err) {
-//     console.log(err);
-//     onFail && onFail();
-//   }
-// }
-
 export const uploadAsset = async (assetType, parentId, parentType, asset, onSuccess=null, onFail=null) => {
   try {
-    console.log(asset);
     await buildHeader();
     const newAsset = new Attachment({
       data: asset.base64,
@@ -83,7 +94,6 @@ export const uploadAsset = async (assetType, parentId, parentType, asset, onSucc
       recordId: parentId,
       recordType: parentType,
     });
-    console.log(newAsset);
     await newAsset.save()
 
     onSuccess();
@@ -93,33 +103,28 @@ export const uploadAsset = async (assetType, parentId, parentType, asset, onSucc
   }
 }
 
-export const editAsset = (assetId, updatedAssetAttrs, onSuccess=null, onFail=null) => async dispatch => {
+// Link already attached assets - uses the same data blob and file but makes a new attachment on the back end.
+export const linkAssets = async (parentId, parentType, assetType, assetsToLink, onSuccess=null, onFail=null) => {
   try {
     await buildHeader();
-    const assetToUpdate = (await Attachment.find(assetId)).data;
-    for (const key of Object.keys(updatedAssetAttrs)) {
-      assetToUpdate[key] = updatedAssetAttrs[key];
+    for (const asset of assetsToLink) {
+      const newAttachment = new Attachment({
+        blobId: asset.blobId.toString(), // API was throwing error blob_id should be a string, not sure why. Strong params states it as an integer.
+        name: assetType,
+        recordId: parentId,
+        recordType: parentType,
+      });
+      await newAttachment.save();
+      // TODO: Investigate why the title will not get saved on create action when passed to the new attachment constructor.
+      if (asset.title) {
+        newAttachment.title = asset.title;
+        await newAttachment.save();
+      }
     }
-    await assetToUpdate.save();
-
     onSuccess && onSuccess();
   } catch (err) {
     console.log(err);
-    onFail && onFail();
-  }
-}
-
-export const deleteAsset = async (assetId, onSuccess=null, onFail=null) => {
-  console.log('deleting asset', assetId);
-  try {
-    await buildHeader();
-    const asset = (await Attachment.find(assetId)).data;
-    console.log('asset', asset);
-    const success = await asset.destroy();
-    console.log('success', success);
-    onSuccess && onSuccess();
-  } catch (err) {
-    console.log(err);
+    dispatch({ type: parentType === 'innovation' ? UPLOAD_ASSET_ERROR : ADD_CONCEPT_CANVAS_ERROR });
     onFail && onFail();
   }
 }

@@ -7,15 +7,15 @@ import { colors } from '../assets/styles/variables';
 import { deleteAsset } from '../api';
 import { apiConfig } from '../config';
 
-export default class AssetList extends Component {
+export default class AssetSelector extends Component {
   render() {
-    const { assets, openViewer } = this.props;
+    const { assets, selectedAssetIds, updateSelected } = this.props;
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.listContainer}>
           {assets && assets.map(asset => (
-            <TouchableOpacity key={asset.id} onPress={() => openViewer(asset)}>
-              <View style={styles.asset}>
+            <TouchableOpacity key={asset.id} onPress={() => updateSelected(asset.id)}>
+              <View style={selectedAssetIds.includes(asset.id) ? [ styles.asset,  styles.selected ] : styles.asset}>
                   <Image
                     style={styles.image}
                     source={{ uri: `${apiConfig.apiDomain}${asset.url}`}}
@@ -37,7 +37,7 @@ export default class AssetList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-
+    flex: 1,
   },
   listContainer: {
     flexDirection: 'row',
@@ -49,6 +49,12 @@ const styles = StyleSheet.create({
   },
   asset: {
     padding: 5,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    margin: 3,
+  },
+  selected: {
+    borderColor: colors.coolBlue2,
   },
   assetTitle: {
     fontSize: 12,

@@ -25,7 +25,6 @@ export default class UploadAssets extends Component {
   saveToDb = () => {
     const { innovation: { id } } = this.props.navigation.state.params;
     this.setState({ isProcessing: true });
-    console.log(this.state);
     uploadAsset('canvases', id, 'Innovation', this.state.newPhoto, this.confirmUpload, this.alertFailedUpload);
   }
 
@@ -58,17 +57,16 @@ export default class UploadAssets extends Component {
   }
 
   handleCancel = () => {
-    const { innovation } = this.props.navigation.state.params;
+    const { innovation, assets } = this.props.navigation.state.params;
     this.setState({ newPhoto: null });
     this.props.navigation.navigate(
       'InnovationOverview',
-      { innovation }
+      { innovation, assets }
     );
   }
 
   render() {
     const { newPhoto, message, isProcessing } = this.state;
-
     return (
       <View style={styles.container}>
         {newPhoto

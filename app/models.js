@@ -189,14 +189,15 @@ export const Attachment = ApplicationRecord.extend({
     jsonapiType: 'attachments'
   },
   attrs: {
+    id: attr(),
     data: attr(),
     filename: attr(),
     url: attr(),
     name: attr(),
-    title: attr(),
-    blobId: attr(),
     recordId: attr(),
     recordType: attr(),
+    title: attr(),
+    blobId: attr(),
     record: belongsTo()
   }
 });
